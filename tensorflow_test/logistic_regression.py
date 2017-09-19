@@ -7,10 +7,10 @@ from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
 # Parameters
-learning_rate = 0.01
-training_epochs = 25
-batch_size = 100
-display_step = 1
+LEARNING_RATE = 0.01
+TRAINING_EPOCHS = 25
+BATCH_SIZE = 100
+DISPLAY_STEP = 1
 
 # tf Graph Input
 x = tf.placeholder(tf.float32, [None, 784]) # mnist data image of shape 28*28=784
@@ -26,7 +26,7 @@ pred = tf.nn.softmax(tf.matmul(x, W) + b) # Softmax
 # Minimize error using cross entropy
 cost = tf.reduce_mean(-tf.reduce_sum(y*tf.log(pred), reduction_indices=1))
 # Gradient Descent
-optimizer = tf.train.GradientDescentOptimizer(learning_rate).minimize(cost)
+optimizer = tf.train.GradientDescentOptimizer(LEARNING_RATE).minimize(cost)
 
 # Initializing the variables
 init = tf.initialize_all_variables()
@@ -34,21 +34,50 @@ init = tf.initialize_all_variables()
 # Launch the graph
 with tf.Session() as sess:
     sess.run(init)
-
+    try:
+        print 'abcabc'
+    except Exception as e:
+        print 'exception message'
+        print e
     # Training cycle
-    for epoch in range(training_epochs):
+    for epoch in range(TRAINING_EPOCHS):
+        
+        print 'aaaaa'
+
+        print 'DEBUG ===> '
+        print ' *** epoch = ' + str(epoch)
+        
         avg_cost = 0.
-        total_batch = int(mnist.train.num_examples/batch_size)
+        total_batch = int(mnist.train.num_examples/BATCH_SIZE)
+        print 'DEBUG ===> '
+        print ' *** mnist.train.num_examples = ' + str(mnist.train.num_examples)
+        print ' *** BATCH_SIZE               = ' + str(BATCH_SIZE)
+        print ' *** total_batch              = ' + str(total_batch)
+
         # Loop over all batches
         for i in range(total_batch):
-            batch_xs, batch_ys = mnist.train.next_batch(batch_size)
+            batch_xs, batch_ys = mnist.train.next_batch(BATCH_SIZE)
+            print 'DEBUG ===> '
+            print ' *** batch_xs       = ' + str(batch_xs)
+            print ' *** batch_ys       = ' + str(batch_ys)
+            print ' *** type(batch_xs) = ' + str(type(batch_xs))
+            print ' *** type(batch_ys) = ' + str(type(batch_ys))
+
             # Run optimization op (backprop) and cost op (to get loss value)
-            _, c = sess.run([optimizer, cost], feed_dict={x: batch_xs,
-                                                          y: batch_ys})
+            _, c = sess.run([optimizer, cost], feed_dict={ x: batch_xs, y: batch_ys})
+            print 'DEBUG ===> '
+            print ' *** _       = ' + str(_)
+            print ' *** c       = ' + str(c)
+            print ' *** type(_) = ' + str(_)
+            print ' *** type(c) = ' + str(c)
+
             # Compute average loss
             avg_cost += c / total_batch
+            print 'DEBUG ===> '
+            print ' *** avg_cost = ' + str(avg_cost)
+
         # Display logs per epoch step
-        if (epoch+1) % display_step == 0:
+        if (epoch+1) % DISPLAY_STEP == 0:
             print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
     print("Optimization Finished!")
