@@ -1,4 +1,4 @@
-from __future__ import print_function
+#from __future__ import print_function
 
 import tensorflow as tf
 
@@ -34,15 +34,9 @@ init = tf.initialize_all_variables()
 # Launch the graph
 with tf.Session() as sess:
     sess.run(init)
-    try:
-        print 'abcabc'
-    except Exception as e:
-        print 'exception message'
-        print e
+    print 'Debug ===========> Session start'
     # Training cycle
     for epoch in range(TRAINING_EPOCHS):
-        
-        print 'aaaaa'
 
         print 'DEBUG ===> '
         print ' *** epoch = ' + str(epoch)
@@ -56,19 +50,22 @@ with tf.Session() as sess:
 
         # Loop over all batches
         for i in range(total_batch):
+            print 'DEBUG ===> '
+            print ' *** batch_i        = ' + str(i)
+
             batch_xs, batch_ys = mnist.train.next_batch(BATCH_SIZE)
             print 'DEBUG ===> '
-            print ' *** batch_xs       = ' + str(batch_xs)
-            print ' *** batch_ys       = ' + str(batch_ys)
+            #print ' *** batch_xs       = ' + str(batch_xs)
+            #print ' *** batch_ys       = ' + str(batch_ys)
             print ' *** type(batch_xs) = ' + str(type(batch_xs))
             print ' *** type(batch_ys) = ' + str(type(batch_ys))
 
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={ x: batch_xs, y: batch_ys})
             print 'DEBUG ===> '
-            print ' *** _       = ' + str(_)
+            #print ' *** _       = ' + str(_)
             print ' *** c       = ' + str(c)
-            print ' *** type(_) = ' + str(_)
+            #print ' *** type(_) = ' + str(_)
             print ' *** type(c) = ' + str(c)
 
             # Compute average loss
@@ -78,7 +75,7 @@ with tf.Session() as sess:
 
         # Display logs per epoch step
         if (epoch+1) % DISPLAY_STEP == 0:
-            print("Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
+            print("-------  Epoch:", '%04d' % (epoch+1), "cost=", "{:.9f}".format(avg_cost))
 
     print("Optimization Finished!")
 
